@@ -1,0 +1,36 @@
+version: '3.8'
+
+services: 
+  node_backend: 
+    container_name: node_backend
+    image: node-test:1.0.0
+    restart: always
+    build:
+      context: .
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+    - PGUSER=${DB_USER}
+    - PGPASSWORD=${DB_PASSWORD}
+    - PGDATABASE=${DB_NAME}
+    - PGHOST=peripanda_db # NAME OF THE SERVICE
+    depends_on: 
+      - peripanda_db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  peripanda_db:
+    container_name: peripanda_db
+    image: 'postgres:12'
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - pgdata2:/var/lib/postgresql/data
+
+volumes:
+  pgdata2: {}
+  

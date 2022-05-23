@@ -1,0 +1,2 @@
+source ../.env
+dbmate --schema-file "../core/db/migrations/schema.sql"  --migrations-dir "../core/db/migrations" -u "postgres://${DB_USER}:${DB_PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" rollback
