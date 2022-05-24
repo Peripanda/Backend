@@ -5,6 +5,7 @@ const ListUsersUseCase = require('../cases/list.users');
 const CreateUsersUseCase = require('../cases/create.user');
 const UserUseCase = require('../cases/get.user');
 const UpdateBalanceUseCase = require('../cases/change.user.balance');
+const SignUpUsersUseCase = require('../cases/user.signup');
 
 // Repos
 const UsersRepo = require('../repos/users');
@@ -28,13 +29,18 @@ router.get('/:id', async (req, res) => {
   res.send(user);
 });
 
-/**
- * POST Crea un usuario
- */
 router.post('/signup', async (req, res) => {
   const createUsersUseCase = CreateUsersUseCase(UsersRepo(UserModel));
+  // En algun un refactory usar userCognito para manejar los errores de las llamadas a cognito
+  const signUpUsersUseCase = SignUpUsersUseCase(UsersRepo(UserModel));
+  // const signInUsersUseCase = SignInUsersUseCase(UsersRepo(UserModel))
+  await signUpUsersUseCase.signUp(req.body.email, req.body.password);
+  /* const auth = await signInUsersUseCase.signIn(
+      req.body.email,
+      req.body.password
+  ) */
   const user = await createUsersUseCase.createUser(req.body);
-  res.send(user);
+  res.send({ user });
 });
 
 /**
