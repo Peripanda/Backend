@@ -33,7 +33,7 @@ const User = db.define(
     birthDate: {
       type: Sequelize.DATE,
       allowNull: true,
-      field: 'birth_date'
+      field: 'birth_date',
     },
   },
   {

@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
-require('dotenv').config()
+require('dotenv').config();
 const indexRouter = require('../services/index');
 const usersRouter = require('../services/users/controller/users');
 
@@ -24,7 +24,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // Error handler
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
   res.status(error.status || 500);
   res.json({
     status: error.status,
