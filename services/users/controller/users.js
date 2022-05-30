@@ -13,8 +13,6 @@ const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 const GetUserWallet = require('../../wallet/cases/get.user.wallet');
 const GetUserPortfolioValue = require('../../wallet/cases/get.user.wallet.value');
 const GetUserAllPortfoslioValue = require('../../wallet/cases/get.user.all.wallet.value');
-
-// Repos
 const UsersRepo = require('../repos/users');
 const WalletsRepo = require('../../wallet/repos/wallets');
 const PortfoliosRepo = require('../../portfolios/repos/portfolios');
