@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD -- Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  linter:
+  tests:
       runs-on: ubuntu-latest
     
       strategy:
@@ -26,29 +26,5 @@ jobs:
         - name: Install dependencies
           run: npm install
           
-        - name: Run Linter Check
-          run: npm run lint
-
-  Jest Tests:
-      runs-on: ubuntu-latest
-    
-      strategy:
-        matrix:
-          node-version: [12.22.0]
-
-      steps:
-        - name: Checkout Code Repository
-          uses: actions/checkout@v2
-        
-        - name: Set up NodeJs
-          uses: actions/setup-node@v2
-          with:
-            node-version: ${{ matrix.node-version }}
-            cache: 'npm'
-            
-        - name: Install dependencies
-          run: npm install
-
         - name: Run Test Check
           run: cp .env.example .env && npm run test
-
