@@ -1,15 +1,18 @@
 {
-  "name": "woorun",
+  "name": "peripanda",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint .",
     "start": "node bin/server.js",
     "dev": "nodemon bin/server.js"
   },
   "dependencies": {
     "@rama41222/node-logger": "^1.0.1",
+    "aws-sdk": "^2.1141.0",
+    "axios": "^0.27.2",
     "body-parser": "^1.20.0",
+    "cognito-express": "^3.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -23,9 +26,14 @@
     "sequelize": "^6.18.0"
   },
   "devDependencies": {
-    "eslint": "^8.13.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-vue": "^9.0.1",
     "nodemon": "^2.0.15"
   }
 }

@@ -4,9 +4,9 @@ const ConflictError = require('../../../errors/ConflictError');
 const createUserUseCase = (userRepo) => ({
   createUser: async (user) => {
     if (
-      !user.email || 
-      !user.password
-      ) {
+      !user.email
+      || !user.password
+    ) {
       throw new BadRequestError('Falta información para crear el usuario');
     }
 
