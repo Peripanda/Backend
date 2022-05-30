@@ -12,9 +12,6 @@ const UsersRepo = require('../repos/users');
 // Models
 const UserModel = require('../../../models/users');
 
-
-
-
 /* GET users listing. */
 router.get('/', async (req, res) => {
   const listUserUseCase = ListUsersUseCase(UsersRepo(UserModel));
@@ -23,10 +20,10 @@ router.get('/', async (req, res) => {
   res.send(user);
 });
 
-/* GET user*/
+/* GET user */
 router.get('/:id', async (req, res) => {
   const userUseCase = UserUseCase(UsersRepo(UserModel));
-  
+
   const user = await userUseCase.getUser(req.params.id);
   res.send(user);
 });
@@ -50,4 +47,3 @@ router.patch('/:id/balance', async (req, res) => {
 });
 
 module.exports = router;
-

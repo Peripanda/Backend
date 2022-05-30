@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint .",
     "start": "node bin/server.js",
-    "dev": "nodemon bin/server.js"
+    "dev": "nodemon bin/server.js",
+    "test": "jest"
   },
   "dependencies": {
     "@rama41222/node-logger": "^1.0.1",
@@ -23,9 +24,15 @@
     "sequelize": "^6.18.0"
   },
   "devDependencies": {
-    "eslint": "^8.13.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "nodemon": "^2.0.15"
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
   }
 }
