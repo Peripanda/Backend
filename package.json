@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node bin/server.js",
-    "dev": "nodemon bin/server.js"
+    "dev": "nodemon bin/server.js",
+    "test": "jest --forceExit"
   },
   "dependencies": {
     "@rama41222/node-logger": "^1.0.1",
@@ -25,7 +26,14 @@
     "pg": "^8.7.3",
     "sequelize": "^6.18.0"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "devDependencies": {
+    "@types/supertest": "^2.0.12",
     "eslint": "^8.16.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -34,6 +42,8 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-vue": "^9.0.1",
-    "nodemon": "^2.0.15"
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
   }
 }

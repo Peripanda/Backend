@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD -- Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  linter:
+  tests:
       runs-on: ubuntu-latest
     
       strategy:
@@ -26,6 +26,5 @@ jobs:
         - name: Install dependencies
           run: npm install
           
-        - name: Run Linter Check
-          run: npm run lint
-
+        - name: Run Test Check
+          run: cp .env.example .env && npm run test
