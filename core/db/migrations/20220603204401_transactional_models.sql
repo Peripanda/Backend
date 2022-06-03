@@ -4,7 +4,7 @@ ALTER TABLE users
 
 CREATE TYPE risk_profile AS ENUM ('high', 'medium', 'low');
 
-CREATE TABLE portfolio (
+CREATE TABLE portfolios (
 	id SERIAL PRIMARY KEY,
 	risk risk_profile,
 	name VARCHAR ( 255 ),
@@ -13,7 +13,7 @@ CREATE TABLE portfolio (
     usdc_weight FLOAT
 );
 
-CREATE TABLE wallet(
+CREATE TABLE wallets(
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL
         CONSTRAINT wallet_users_id_fk
@@ -25,25 +25,25 @@ CREATE TABLE wallet(
     usdc_quantity FLOAT DEFAULT 0
 );
 
-CREATE TABLE asset(
+CREATE TABLE assets(
     ticker VARCHAR ( 50 ) PRIMARY KEY,
     name VARCHAR ( 255 )
 );
 
-INSERT INTO portfolio (risk, name, btc_weight, eth_weight, usdc_weight)
+INSERT INTO portfolios (risk, name, btc_weight, eth_weight, usdc_weight)
 VALUES ('high', 'El Risky', 0.7, 0.3, 0);
 
-INSERT INTO portfolio (risk, name, btc_weight, eth_weight, usdc_weight)
+INSERT INTO portfolios (risk, name, btc_weight, eth_weight, usdc_weight)
 VALUES ('medium', 'Moderatzione', 0.5, 0.3, 0.2);
 
-INSERT INTO portfolio (risk, name, btc_weight, eth_weight, usdc_weight)
+INSERT INTO portfolios (risk, name, btc_weight, eth_weight, usdc_weight)
 VALUES ('low', 'El Fome', 0.3, 0.1, 0.6);
 
 -- migrate:down
 
 ALTER TABLE users
     DROP COLUMN net_investment;
-DROP TABLE portfolio;
-DROP TABLE wallet;
-DROP TABLE asset;
+DROP TABLE portfolios;
+DROP TABLE wallets;
+DROP TABLE assets;
 DROP TYPE risk_profile;

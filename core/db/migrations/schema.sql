@@ -25,20 +25,20 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: asset; Type: TABLE; Schema: public; Owner: -
+-- Name: assets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.asset (
+CREATE TABLE public.assets (
     ticker character varying(50) NOT NULL,
     name character varying(255)
 );
 
 
 --
--- Name: portfolio; Type: TABLE; Schema: public; Owner: -
+-- Name: portfolios; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.portfolio (
+CREATE TABLE public.portfolios (
     id integer NOT NULL,
     risk public.risk_profile,
     name character varying(255),
@@ -49,10 +49,10 @@ CREATE TABLE public.portfolio (
 
 
 --
--- Name: portfolio_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: portfolios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.portfolio_id_seq
+CREATE SEQUENCE public.portfolios_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -62,10 +62,10 @@ CREATE SEQUENCE public.portfolio_id_seq
 
 
 --
--- Name: portfolio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: portfolios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.portfolio_id_seq OWNED BY public.portfolio.id;
+ALTER SEQUENCE public.portfolios_id_seq OWNED BY public.portfolios.id;
 
 
 --
@@ -114,10 +114,10 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: wallet; Type: TABLE; Schema: public; Owner: -
+-- Name: wallets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.wallet (
+CREATE TABLE public.wallets (
     id integer NOT NULL,
     user_id integer NOT NULL,
     wallet_type public.risk_profile,
@@ -128,10 +128,10 @@ CREATE TABLE public.wallet (
 
 
 --
--- Name: wallet_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: wallets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.wallet_id_seq
+CREATE SEQUENCE public.wallets_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -141,17 +141,17 @@ CREATE SEQUENCE public.wallet_id_seq
 
 
 --
--- Name: wallet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: wallets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.wallet_id_seq OWNED BY public.wallet.id;
+ALTER SEQUENCE public.wallets_id_seq OWNED BY public.wallets.id;
 
 
 --
--- Name: portfolio id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: portfolios id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.portfolio ALTER COLUMN id SET DEFAULT nextval('public.portfolio_id_seq'::regclass);
+ALTER TABLE ONLY public.portfolios ALTER COLUMN id SET DEFAULT nextval('public.portfolios_id_seq'::regclass);
 
 
 --
@@ -162,26 +162,26 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Name: wallet id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: wallets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.wallet ALTER COLUMN id SET DEFAULT nextval('public.wallet_id_seq'::regclass);
-
-
---
--- Name: asset asset_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.asset
-    ADD CONSTRAINT asset_pkey PRIMARY KEY (ticker);
+ALTER TABLE ONLY public.wallets ALTER COLUMN id SET DEFAULT nextval('public.wallets_id_seq'::regclass);
 
 
 --
--- Name: portfolio portfolio_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: assets assets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.portfolio
-    ADD CONSTRAINT portfolio_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.assets
+    ADD CONSTRAINT assets_pkey PRIMARY KEY (ticker);
+
+
+--
+-- Name: portfolios portfolios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portfolios
+    ADD CONSTRAINT portfolios_pkey PRIMARY KEY (id);
 
 
 --
@@ -209,18 +209,18 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: wallet wallet_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: wallets wallets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.wallet
-    ADD CONSTRAINT wallet_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.wallets
+    ADD CONSTRAINT wallets_pkey PRIMARY KEY (id);
 
 
 --
--- Name: wallet wallet_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: wallets wallet_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.wallet
+ALTER TABLE ONLY public.wallets
     ADD CONSTRAINT wallet_users_id_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
