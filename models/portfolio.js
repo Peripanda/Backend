@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../core/db/database');
 
-const User = db.define(
-  'users',
+const Portfolio = db.define(
+  'portfolios',
   {
     id: {
       type: Sequelize.INTEGER,
@@ -10,36 +10,29 @@ const User = db.define(
       allowNull: false,
       primaryKey: true,
     },
-    email: {
+    risk: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false,
+      primaryKey: true,
     },
     name: {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    lastname: {
-      type: Sequelize.STRING,
+    btcWeight: {
+      type: Sequelize.FLOAT,
       allowNull: true,
+      field: 'btc_weight',
     },
-    balance: {
-      type: Sequelize.INTEGER,
+    ethWeight: {
+      type: Sequelize.FLOAT,
       allowNull: true,
+      field: 'eth_weight',
     },
-    birthDate: {
-      type: Sequelize.DATE,
+    usdcWeight: {
+      type: Sequelize.FLOAT,
       allowNull: true,
-      field: 'birth_date',
-    },
-    netInvestment: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      field: 'net_investment',
-      default: 0,
+      field: 'usdc_weight',
     },
   },
   {
@@ -47,4 +40,4 @@ const User = db.define(
   },
 );
 
-module.exports = User;
+module.exports = Portfolio;

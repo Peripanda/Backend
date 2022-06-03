@@ -9,9 +9,64 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: risk_profile; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.risk_profile AS ENUM (
+    'high',
+    'medium',
+    'low'
+);
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: asset; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.asset (
+    ticker character varying(50) NOT NULL,
+    name character varying(255)
+);
+
+
+--
+-- Name: portfolio; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portfolio (
+    id integer NOT NULL,
+    risk public.risk_profile,
+    name character varying(255),
+    btc_weight double precision,
+    eth_weight double precision,
+    usdc_weight double precision
+);
+
+
+--
+-- Name: portfolio_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.portfolio_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: portfolio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.portfolio_id_seq OWNED BY public.portfolio.id;
+
 
 --
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
@@ -33,7 +88,8 @@ CREATE TABLE public.users (
     name character varying(255),
     lastname character varying(255),
     balance integer DEFAULT 0,
-    birth_date date
+    birth_date date,
+    net_investment integer DEFAULT 0
 );
 
 
@@ -58,10 +114,74 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: wallet; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wallet (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    wallet_type public.risk_profile,
+    btc_quantity double precision DEFAULT 0,
+    eth_quantity double precision DEFAULT 0,
+    usdc_quantity double precision DEFAULT 0
+);
+
+
+--
+-- Name: wallet_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.wallet_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: wallet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.wallet_id_seq OWNED BY public.wallet.id;
+
+
+--
+-- Name: portfolio id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portfolio ALTER COLUMN id SET DEFAULT nextval('public.portfolio_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: wallet id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet ALTER COLUMN id SET DEFAULT nextval('public.wallet_id_seq'::regclass);
+
+
+--
+-- Name: asset asset_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.asset
+    ADD CONSTRAINT asset_pkey PRIMARY KEY (ticker);
+
+
+--
+-- Name: portfolio portfolio_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portfolio
+    ADD CONSTRAINT portfolio_pkey PRIMARY KEY (id);
 
 
 --
@@ -89,6 +209,22 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: wallet wallet_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet
+    ADD CONSTRAINT wallet_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wallet wallet_users_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet
+    ADD CONSTRAINT wallet_users_id_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -98,4 +234,5 @@ ALTER TABLE ONLY public.users
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20220511045056');
+    ('20220511045056'),
+    ('20220603204401');
