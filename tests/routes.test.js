@@ -26,7 +26,7 @@ describe('Signup', () => {
         password: '.Abcdhjkbd1!!!!!',
         username: 'jasanchez1',
       });
-    expect(res.statusCode).toEqual(400);
+    expect(res.statusCode).toEqual(500);
   });
 });
 
@@ -37,7 +37,7 @@ describe('Update Balance', () => {
       .send({
         delta: 100,
       });
-    expect(res.statusCode).toEqual(500);
+    expect(res.statusCode).toEqual(404);
   });
 });
 

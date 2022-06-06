@@ -39,6 +39,15 @@ VALUES ('medium', 'Moderatzione', 0.5, 0.3, 0.2);
 INSERT INTO portfolios (risk, name, btc_weight, eth_weight, usdc_weight)
 VALUES ('low', 'El Fome', 0.3, 0.1, 0.6);
 
+INSERT  INTO assets (ticker, name)
+VALUES('btc', 'Bitcoin');
+
+INSERT  INTO assets (ticker, name)
+VALUES('eth', 'Ethereum');
+
+INSERT  INTO assets (ticker, name)
+VALUES('usdc', 'USDC');
+
 -- migrate:down
 
 ALTER TABLE users
