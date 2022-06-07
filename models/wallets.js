@@ -11,13 +11,15 @@ const Wallet = db.define(
       allowNull: false,
       primaryKey: true,
     },
-    user_id: {
+    userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      field: 'user_id',
     },
-    wallet_type: {
+    walletType: {
       type: Sequelize.STRING,
       allowNull: false,
+      field: 'wallet_type',
     },
     btcQuantity: {
       type: Sequelize.FLOAT,
