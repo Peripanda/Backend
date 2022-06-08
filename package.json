@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "start": "node bin/server.js",
-    "dev": "nodemon bin/server.js",
-    "test": "jest --forceExit"
+    "start": "node bin/app.js",
+    "dev": "nodemon bin/app.js",
+    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1  --verbose"
   },
   "dependencies": {
     "@rama41222/node-logger": "^1.0.1",
@@ -23,6 +23,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
+    "net-tools": "^1.0.1",
     "pg": "^8.7.3",
     "sequelize": "^6.18.0"
   },
