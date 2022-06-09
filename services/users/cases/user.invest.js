@@ -46,8 +46,6 @@ const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
     // La purchaseConfig.pETH es la cantidad en pesos a comprar de ETH
     // La purchaseConfig.pUSDC es la cantidad en pesos a comprar de USDC
     // La llamada de buda require volumen del bid, por lo que las compras debiesen ser en volumen
-    console.log(btcPrice.price)
-    console.log( purchaseConfig.pBTC)
 
     // reemplazar con las cantidades de cada asset comprado
     const UpdatedWallet = await userPortfolioWallet.set({
