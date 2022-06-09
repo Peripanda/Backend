@@ -1,8 +1,12 @@
 const NotFoundRequestError = require('../../../errors/NotFoundError');
 const NegativeBalanceNotAllowed = require('../../../errors/NegativeBalanceNotAllowed');
+const BadRequest = require('../../../errors/BadRequestError');
 
 const ChangeUserBalanceUseCase = (userRepo) => ({
   patchUserBalance: async (id, body) => {
+    if (!body.delta) {
+      throw new BadRequest('El request debe contener delta');
+    }
     const user = await userRepo.getUser(id);
     if (user === null) {
       throw new NotFoundRequestError('Usuario no encontrado');

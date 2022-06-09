@@ -5,6 +5,7 @@ const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
 require('dotenv').config();
 const indexRouter = require('../services/index');
 const usersRouter = require('../services/users/controller/users');
+const assetsRouter = require('../services/assets/controller/assets');
 
 const config = {
   name: 'sample-express-app',
@@ -22,9 +23,12 @@ app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/assets', assetsRouter);
 
 // Error handler
-app.use((error, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+  logger.log('error', error.message);
   res.status(error.status || 500);
   res.json({
     status: error.status,
@@ -38,3 +42,5 @@ app.listen(config.port, config.host, (e) => {
   }
   logger.info(`${config.name} running on ${config.host}:${config.port}`);
 });
+
+module.exports = app;
