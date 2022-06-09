@@ -21,6 +21,7 @@ const PortfoliosRepo = require('../../portfolios/repos/portfolios');
 
 // Models
 const UserModel = require('../../../models/users');
+
 const WalletModel = require('../../../models/wallets');
 const PortfolioModel = require('../../../models/portfolios');
 
@@ -72,6 +73,7 @@ router.post('/signup', async (req, res) => {
   const signUpUsersUseCase = SignUpUsersUseCase(UsersRepo(UserModel));
   const signInUsersUseCase = SignInUsersUseCase(UsersRepo(UserModel));
   const NewUserWalletsUseCase = NewUserWalletsCase(WalletsRepo(WalletModel));
+
   await signUpUsersUseCase.signUp(req.body.email, req.body.password);
   const auth = await signInUsersUseCase.signIn(
     req.body.email,
