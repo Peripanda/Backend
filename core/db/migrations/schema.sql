@@ -20,6 +20,7 @@ CREATE TYPE public.risk_profile AS ENUM (
 );
 
 
+<<<<<<< HEAD
 --
 -- Name: i_potencia(integer); Type: FUNCTION; Schema: public; Owner: -
 --
@@ -117,6 +118,8 @@ END
 $$;
 
 
+=======
+>>>>>>> f4a87e2 (Dev (#15))
 SET default_tablespace = '';
 
 --
@@ -147,6 +150,50 @@ CREATE TABLE public.personas (
 CREATE TABLE public.personascompleto (
     run character varying NOT NULL,
     nombrecompleto character varying
+);
+
+
+--
+-- Name: portfolios; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portfolios (
+    id integer NOT NULL,
+    risk public.risk_profile,
+    name character varying(255),
+    btc_weight double precision,
+    eth_weight double precision,
+    usdc_weight double precision
+);
+
+
+--
+-- Name: portfolios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.portfolios_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: portfolios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.portfolios_id_seq OWNED BY public.portfolios.id;
+
+
+--
+-- Name: assets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.assets (
+    ticker character varying(50) NOT NULL,
+    name character varying(255)
 );
 
 
@@ -293,6 +340,7 @@ ALTER TABLE ONLY public.assets
 
 
 --
+<<<<<<< HEAD
 -- Name: personas personas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -309,6 +357,8 @@ ALTER TABLE ONLY public.personascompleto
 
 
 --
+=======
+>>>>>>> f4a87e2 (Dev (#15))
 -- Name: portfolios portfolios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 

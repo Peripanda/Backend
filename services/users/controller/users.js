@@ -24,6 +24,9 @@ const UserModel = require('../../../models/users');
 const WalletModel = require('../../../models/wallets');
 const PortfolioModel = require('../../../models/portfolios');
 
+const WalletModel = require('../../../models/wallets');
+const PortfolioModel = require('../../../models/portfolios');
+
 /* GET users listing. */
 router.get('/', async (req, res) => {
   const listUserUseCase = ListUsersUseCase(UsersRepo(UserModel));
@@ -52,10 +55,17 @@ router.get('/:id/wallets/:riskProfile', async (req, res) => {
   res.send(await userWallets.getUserWallet(req.params.id, req.params.riskProfile));
 });
 
+<<<<<<< HEAD
 /* GET User aggregate portfolios value */
 router.get('/:id/portfolio-value', async (req, res) => {
   // if req.params.riskProfile != "all"
   const getUserPortfoliosValue = GetUserAllPortfolioValue(WalletsRepo(WalletModel));
+=======
+/* GET User aggreate portfolios value */
+router.get('/:id/portfolio-value', async (req, res) => {
+  // if req.params.riskProfile != "all"
+  const getUserPortfoliosValue = GetUserAllPortfoslioValue(WalletsRepo(WalletModel));
+>>>>>>> f4a87e2 (Dev (#15))
   res.send(await getUserPortfoliosValue.getUserWalletsValue(req.params.id));
 });
 
@@ -66,6 +76,7 @@ router.get('/:id/portfolio-value/:riskProfile', async (req, res) => {
   res.send(await getUserPortfolioValue.getUserWalletValue(req.params.id, req.params.riskProfile));
 });
 
+<<<<<<< HEAD
 /* GET User portfolio P&L */
 router.get('/:id/profit', async (req, res) => {
   // if req.params.riskProfile != "all"
@@ -77,12 +88,18 @@ router.get('/:id/profit', async (req, res) => {
   res.send({ profit, currency: 'CLP' });
 });
 
+=======
+>>>>>>> f4a87e2 (Dev (#15))
 router.post('/signup', async (req, res) => {
   const createUsersUseCase = CreateUsersUseCase(UsersRepo(UserModel));
   // En algun un refactory usar userCognito para manejar los errores de las llamadas a cognito
   const signUpUsersUseCase = SignUpUsersUseCase(UsersRepo(UserModel));
   const signInUsersUseCase = SignInUsersUseCase(UsersRepo(UserModel));
   const NewUserWalletsUseCase = NewUserWalletsCase(WalletsRepo(WalletModel));
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4a87e2 (Dev (#15))
   await signUpUsersUseCase.signUp(req.body.email, req.body.password);
   const auth = await signInUsersUseCase.signIn(
     req.body.email,
