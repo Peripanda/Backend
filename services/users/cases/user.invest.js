@@ -4,6 +4,7 @@ const NotEnoughBalanceError = require('../../../errors/NotEnoughBalance');
 const BadRequest = require('../../../errors/BadRequestError');
 const MinimumInvestment = require('../../../constants/minimum.investment');
 const getAssetPurchaseConfig = require('../../../helpers/purchase.asset.helper');
+const getAssetPrice = require('../../../helpers/get.asset.price');
 
 const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
   invest: async (id, riskProfile, body) => {
@@ -30,17 +31,29 @@ const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
     });
     updatedUser.save();
 
+    const btcPrice = await getAssetPrice('btc');
+    const ethPrice = await getAssetPrice('eth');
+    const usdcPrice = await getAssetPrice('usdc');
+
+    /* volumes to purchase. Should trigger a purchase if !0 */
+
+    const qBTC = purchaseConfig.pBTC / btcPrice.price;
+    const qETH = purchaseConfig.pETH / ethPrice.price;
+    const qUSDC = purchaseConfig.pUSDC / usdcPrice.price;
+
     // TODO: Gatilla la compra en Buda en base a purchase config: Compra de tipo Limit
     // La purchaseConfig.pBTC es la cantidad en pesos a comprar de BTC
     // La purchaseConfig.pETH es la cantidad en pesos a comprar de ETH
     // La purchaseConfig.pUSDC es la cantidad en pesos a comprar de USDC
     // La llamada de buda require volumen del bid, por lo que las compras debiesen ser en volumen
+    console.log(btcPrice.price)
+    console.log( purchaseConfig.pBTC)
 
     // reemplazar con las cantidades de cada asset comprado
     const UpdatedWallet = await userPortfolioWallet.set({
-      btcQuantity: userPortfolioWallet.dataValues.btcQuantity + 1.031,
-      ethQuantity: userPortfolioWallet.dataValues.ethQuantity + 4.01,
-      usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + 100,
+      btcQuantity: userPortfolioWallet.dataValues.btcQuantity + qBTC,
+      ethQuantity: userPortfolioWallet.dataValues.ethQuantity + qETH,
+      usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + qUSDC,
     });
     return UpdatedWallet.save();
   },
