@@ -9,6 +9,7 @@ const SignUpUsersUseCase = require('../cases/user.signup');
 const SignInUsersUseCase = require('../cases/user.signin');
 const InvestUseCase = require('../cases/user.invest');
 const NewUserWalletsCase = require('../../wallet/cases/new.user.wallets');
+const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 
 // Repos
 const UsersRepo = require('../repos/users');
@@ -34,6 +35,11 @@ router.get('/:id', async (req, res) => {
 
   const user = await userUseCase.getUser(req.params.id);
   res.send(user);
+});
+
+router.get('/:id/wallets', async (req, res) => {
+  const userWallets = GetUserWallets(WalletsRepo(WalletModel));
+  res.send(await userWallets.getUserWallets(req.params.id));
 });
 
 router.post('/signup', async (req, res) => {
