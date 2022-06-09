@@ -1,11 +1,15 @@
 const NotFoundRequestError = require('../../../errors/NotFoundError');
 const MinimumInvestmentError = require('../../../errors/MinimumInvestment');
 const NotEnoughBalanceError = require('../../../errors/NotEnoughBalance');
+const BadRequest = require('../../../errors/BadRequestError');
 const MinimumInvestment = require('../../../constants/minimum.investment');
 const getAssetPurchaseConfig = require('../../../helpers/purchase.asset.helper');
 
 const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
   invest: async (id, riskProfile, body) => {
+    if (!body.investment) {
+      throw new BadRequest('El request debe contener investment');
+    }
     const user = await userRepo.getUser(id);
     if (!user) {
       throw new NotFoundRequestError('Usuario no encontrado');
@@ -32,10 +36,11 @@ const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
     // La purchaseConfig.pUSDC es la cantidad en pesos a comprar de USDC
     // La llamada de buda require volumen del bid, por lo que las compras debiesen ser en volumen
 
+    // reemplazar con las cantidades de cada asset comprado
     const UpdatedWallet = await userPortfolioWallet.set({
-      btcQuantity: 1.031, // reemplazar con los cantidadesa de btc comprados
-      ethQuantity: 4.01, // Reemplzar por los valores de eth comprados
-      usdcQuantity: 100, // Reemplazar con los valores de usdc comprados
+      btcQuantity: userPortfolioWallet.dataValues.btcQuantity + 1.031,
+      ethQuantity: userPortfolioWallet.dataValues.ethQuantity + 4.01,
+      usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + 100,
     });
     return UpdatedWallet.save();
   },
