@@ -12,7 +12,7 @@ const NewUserWalletsCase = require('../../wallet/cases/new.user.wallets');
 const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 const GetUserWallet = require('../../wallet/cases/get.user.wallet');
 const GetUserPortfolioValue = require('../../wallet/cases/get.user.wallet.value');
-const GetUserAllPortfoslioValue = require('../../wallet/cases/get.user.all.wallet.value');
+const GetUserAllPortfolioValue = require('../../wallet/cases/get.user.all.wallet.value');
 
 // Repos
 const UsersRepo = require('../repos/users');
@@ -53,10 +53,10 @@ router.get('/:id/wallets/:riskProfile', async (req, res) => {
   res.send(await userWallets.getUserWallet(req.params.id, req.params.riskProfile));
 });
 
-/* GET User aggreate portfolios value */
+/* GET User aggregate portfolios value */
 router.get('/:id/portfolio-value', async (req, res) => {
   // if req.params.riskProfile != "all"
-  const getUserPortfoliosValue = GetUserAllPortfoslioValue(WalletsRepo(WalletModel));
+  const getUserPortfoliosValue = GetUserAllPortfolioValue(WalletsRepo(WalletModel));
   res.send(await getUserPortfoliosValue.getUserWalletsValue(req.params.id));
 });
 
@@ -68,14 +68,13 @@ router.get('/:id/portfolio-value/:riskProfile', async (req, res) => {
 });
 
 /* GET User portfolio P&L */
-router.get('/:id/profit/:riskProfile', async (req, res) => {
+router.get('/:id/profit', async (req, res) => {
   // if req.params.riskProfile != "all"
-  const getUserPortfolioValue = GetUserPortfolioValue(WalletsRepo(WalletModel));
+  const getUserPortfoliosValue = GetUserAllPortfolioValue(WalletsRepo(WalletModel));
+  const userWalletValue = await getUserPortfoliosValue.getUserWalletsValue(req.params.id);
   const userUseCase = UserUseCase(UsersRepo(UserModel));
   const user = await userUseCase.getUser(req.params.id);
-  const userNetInvestment = user.netInvestment;
-  const userWalletValue = await getUserPortfolioValue.getUserWalletValue(req.params.id, req.params.riskProfile);
-  const profit = userWalletValue.value - userNetInvestment;
+  const profit = userWalletValue.value - user.netInvestment;
   res.send({ profit, currency: 'CLP' });
 });
 
