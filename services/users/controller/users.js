@@ -67,6 +67,18 @@ router.get('/:id/portfolio-value/:riskProfile', async (req, res) => {
   res.send(await getUserPortfolioValue.getUserWalletValue(req.params.id, req.params.riskProfile));
 });
 
+/* GET User portfolio P&L */
+router.get('/:id/profit/:riskProfile', async (req, res) => {
+  // if req.params.riskProfile != "all"
+  const getUserPortfolioValue = GetUserPortfolioValue(WalletsRepo(WalletModel));
+  const userUseCase = UserUseCase(UsersRepo(UserModel));
+  const user = await userUseCase.getUser(req.params.id);
+  const userNetInvestment = user.netInvestment;
+  const userWalletValue = await getUserPortfolioValue.getUserWalletValue(req.params.id, req.params.riskProfile);
+  const profit = userWalletValue.value - userNetInvestment;
+  res.send({ profit, currency: 'CLP' });
+});
+
 router.post('/signup', async (req, res) => {
   const createUsersUseCase = CreateUsersUseCase(UsersRepo(UserModel));
   // En algun un refactory usar userCognito para manejar los errores de las llamadas a cognito
