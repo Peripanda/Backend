@@ -5,9 +5,9 @@ const app = require('../bin/server');
 describe('Signup', () => {
   it('Happy path signup', async () => {
     const res = await request(app).post('/users/signup').send({
-      email: 'dave12@email.com',
-      password: '.Abcdejkbd1!!!!!',
-      username: 'dfdiaz33',
+      email: 'dave112321@email.com',
+      password: '.Abcd123rejkbd1!!!!!',
+      username: 'dfdiaz33123',
     });
     expect(res.statusCode).toEqual(200);
   });
