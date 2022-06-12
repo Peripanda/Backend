@@ -20,3 +20,11 @@ describe('When taking funds exceeds balance', () => {
     expect(res.statusCode).toEqual(400);
   });
 });
+
+// Get user wallet
+describe('Getting user wallets', () => {
+  test('Happy path', async () => {
+    const res = await request(app).get('/users/2/wallets');
+    expect(res.statusCode).toEqual(200);
+  });
+});
