@@ -49,7 +49,6 @@ const marketOrder = async function postMarketOrder(amount, ticker, transactionTy
   const BODY = generateBody(amount, transactionType);
   const PATH = generatePath(URL);
   const HEADERS = authHeader(METHOD, PATH, BODY);
-
   return postRequest(URL, BODY, HEADERS);
 };
 module.exports = marketOrder;

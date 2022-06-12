@@ -8,13 +8,11 @@ const UpdateBalanceUseCase = require('../cases/change.user.balance');
 const SignUpUsersUseCase = require('../cases/user.signup');
 const SignInUsersUseCase = require('../cases/user.signin');
 const InvestUseCase = require('../cases/user.invest');
-const WithdrawUseCase = require('../cases/user.liquidate');
 const NewUserWalletsCase = require('../../wallet/cases/new.user.wallets');
 const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 const GetUserWallet = require('../../wallet/cases/get.user.wallet');
 const GetUserPortfolioValue = require('../../wallet/cases/get.user.wallet.value');
 const GetUserAllPortfolioValue = require('../../wallet/cases/get.user.all.wallet.value');
-const EditUserUseCase = require('../cases/edit.user');
 
 // Repos
 const UsersRepo = require('../repos/users');
@@ -45,14 +43,6 @@ router.get('/:id', async (req, res) => {
   res.send(user);
 });
 
-/* PATCH user */
-router.patch('/:id', async (req, res) => {
-  const editUserUseCase = EditUserUseCase(UsersRepo(UserModel));
-
-  const user = await editUserUseCase.editUser(req.params.id, req.body);
-  res.send(user);
-});
-
 /* GET User Wallets  by UserID */
 router.get('/:id/wallets', async (req, res) => {
   const userWallets = GetUserWallets(WalletsRepo(WalletModel));
@@ -65,17 +55,10 @@ router.get('/:id/wallets/:riskProfile', async (req, res) => {
   res.send(await userWallets.getUserWallet(req.params.id, req.params.riskProfile));
 });
 
-<<<<<<< HEAD
 /* GET User aggregate portfolios value */
 router.get('/:id/portfolio-value', async (req, res) => {
   // if req.params.riskProfile != "all"
   const getUserPortfoliosValue = GetUserAllPortfolioValue(WalletsRepo(WalletModel));
-=======
-/* GET User aggreate portfolios value */
-router.get('/:id/portfolio-value', async (req, res) => {
-  // if req.params.riskProfile != "all"
-  const getUserPortfoliosValue = GetUserAllPortfoslioValue(WalletsRepo(WalletModel));
->>>>>>> f4a87e2 (Dev (#15))
   res.send(await getUserPortfoliosValue.getUserWalletsValue(req.params.id));
 });
 
@@ -86,7 +69,6 @@ router.get('/:id/portfolio-value/:riskProfile', async (req, res) => {
   res.send(await getUserPortfolioValue.getUserWalletValue(req.params.id, req.params.riskProfile));
 });
 
-<<<<<<< HEAD
 /* GET User portfolio P&L */
 router.get('/:id/profit', async (req, res) => {
   // if req.params.riskProfile != "all"
@@ -98,18 +80,12 @@ router.get('/:id/profit', async (req, res) => {
   res.send({ profit, currency: 'CLP' });
 });
 
-=======
->>>>>>> f4a87e2 (Dev (#15))
 router.post('/signup', async (req, res) => {
   const createUsersUseCase = CreateUsersUseCase(UsersRepo(UserModel));
   // En algun un refactory usar userCognito para manejar los errores de las llamadas a cognito
   const signUpUsersUseCase = SignUpUsersUseCase(UsersRepo(UserModel));
   const signInUsersUseCase = SignInUsersUseCase(UsersRepo(UserModel));
   const NewUserWalletsUseCase = NewUserWalletsCase(WalletsRepo(WalletModel));
-<<<<<<< HEAD
-=======
-
->>>>>>> f4a87e2 (Dev (#15))
   await signUpUsersUseCase.signUp(req.body.email, req.body.password);
   const auth = await signInUsersUseCase.signIn(
     req.body.email,
@@ -150,7 +126,6 @@ router.patch('/:id/balance', async (req, res) => {
   res.send(balance);
 });
 
-/* User Invest */
 router.post('/:id/invest/:riskProfile', async (req, res) => {
   const investment = InvestUseCase(
     UsersRepo(UserModel),
@@ -158,17 +133,6 @@ router.post('/:id/invest/:riskProfile', async (req, res) => {
     PortfoliosRepo(PortfolioModel),
   );
   const newWalletStatus = await investment.invest(req.params.id, req.params.riskProfile, req.body);
-  res.send(newWalletStatus);
-});
-
-/* User Withdraw */
-router.post('/:id/withdraw/:riskProfile', async (req, res) => {
-  const withdraw = WithdrawUseCase(
-    UsersRepo(UserModel),
-    WalletsRepo(WalletModel),
-    PortfoliosRepo(PortfolioModel),
-  );
-  const newWalletStatus = await withdraw.liquidate(req.params.id, req.params.riskProfile, req.body);
   res.send(newWalletStatus);
 });
 
