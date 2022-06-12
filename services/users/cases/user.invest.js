@@ -4,6 +4,10 @@ const NotEnoughBalanceError = require('../../../errors/NotEnoughBalance');
 const BadRequest = require('../../../errors/BadRequestError');
 const MinimumInvestment = require('../../../constants/minimum.investment');
 const getAssetPurchaseConfig = require('../../../helpers/purchase.asset.helper');
+const getAssetPrice = require('../../../helpers/get.asset.price');
+const buyAsset = require('../../../helpers/asset.market.order');
+
+const SIMULATE_TRANSACTION = process.env.BUDA_SIMULATION;
 
 const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
   invest: async (id, riskProfile, body) => {
@@ -30,17 +34,48 @@ const InvestUseCase = (userRepo, walletRepo, portfolioRepo) => ({
     });
     updatedUser.save();
 
-    // TODO: Gatilla la compra en Buda en base a purchase config: Compra de tipo Limit
-    // La purchaseConfig.pBTC es la cantidad en pesos a comprar de BTC
-    // La purchaseConfig.pETH es la cantidad en pesos a comprar de ETH
-    // La purchaseConfig.pUSDC es la cantidad en pesos a comprar de USDC
-    // La llamada de buda require volumen del bid, por lo que las compras debiesen ser en volumen
+    const btcPrice = await getAssetPrice('btc');
+    const ethPrice = await getAssetPrice('eth');
+    const usdcPrice = await getAssetPrice('usdc');
 
-    // reemplazar con las cantidades de cada asset comprado
+    /* volumes to purchase. Should trigger a purchase if !0 */
+
+    const qBTC = (purchaseConfig.pBTC / btcPrice.price) * 0.98;
+    const qETH = (purchaseConfig.pETH / ethPrice.price) * 0.98;
+    const qUSDC = (purchaseConfig.pUSDC / usdcPrice.price) * 0.98;
+
+    if (SIMULATE_TRANSACTION === 'FALSE') {
+      const assetPurchases = {
+        BTC: 0,
+        ETH: 0,
+        USDC: 0,
+      };
+
+      // Compra BTC
+      const purchaseBTC = await buyAsset(qBTC, 'btc', 'Bid');
+      assetPurchases.BTC += parseFloat(purchaseBTC.order.amount[0]);
+
+      // Compra ETH
+      const purchaseETH = await buyAsset(qETH, 'eth', 'Bid');
+      assetPurchases.ETH = parseFloat(purchaseETH.order.amount[0]);
+
+      // Compra USDC
+      if (qUSDC !== 0) {
+        const purchaseUSDC = await buyAsset(qUSDC, 'usdc', 'Bid');
+        assetPurchases.USDC = parseFloat(purchaseUSDC.order.amount[0]);
+      }
+      const UpdatedWallet = await userPortfolioWallet.set({
+        btcQuantity: userPortfolioWallet.dataValues.btcQuantity + assetPurchases.BTC,
+        ethQuantity: userPortfolioWallet.dataValues.ethQuantity + assetPurchases.ETH,
+        usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + assetPurchases.USDC,
+      });
+      return UpdatedWallet.save();
+    }
+    // Caso simulado
     const UpdatedWallet = await userPortfolioWallet.set({
-      btcQuantity: userPortfolioWallet.dataValues.btcQuantity + 1.031,
-      ethQuantity: userPortfolioWallet.dataValues.ethQuantity + 4.01,
-      usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + 100,
+      btcQuantity: userPortfolioWallet.dataValues.btcQuantity + qBTC,
+      ethQuantity: userPortfolioWallet.dataValues.ethQuantity + qETH,
+      usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity + qUSDC,
     });
     return UpdatedWallet.save();
   },
