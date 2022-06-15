@@ -125,7 +125,19 @@ router.patch('/:id/balance', async (req, res) => {
   res.send(balance);
 });
 
+/* User Invest */
 router.post('/:id/invest/:riskProfile', async (req, res) => {
+  const investment = InvestUseCase(
+    UsersRepo(UserModel),
+    WalletsRepo(WalletModel),
+    PortfoliosRepo(PortfolioModel),
+  );
+  const newWalletStatus = await investment.invest(req.params.id, req.params.riskProfile, req.body);
+  res.send(newWalletStatus);
+});
+
+/* User Withdraw */
+router.post('/:id/withdraw/:riskProfile', async (req, res) => {
   const investment = InvestUseCase(
     UsersRepo(UserModel),
     WalletsRepo(WalletModel),
