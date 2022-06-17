@@ -14,6 +14,7 @@ const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 const GetUserWallet = require('../../wallet/cases/get.user.wallet');
 const GetUserPortfolioValue = require('../../wallet/cases/get.user.wallet.value');
 const GetUserAllPortfolioValue = require('../../wallet/cases/get.user.all.wallet.value');
+const EditUserUseCase = require('../cases/edit.user');
 
 // Repos
 const UsersRepo = require('../repos/users');
@@ -41,6 +42,14 @@ router.get('/:id', async (req, res) => {
   const userUseCase = UserUseCase(UsersRepo(UserModel));
 
   const user = await userUseCase.getUser(req.params.id);
+  res.send(user);
+});
+
+/* PATCH user */
+router.patch('/:id', async (req, res) => {
+  const editUserUseCase = EditUserUseCase(UsersRepo(UserModel));
+
+  const user = await editUserUseCase.editUser(req.params.id, req.body);
   res.send(user);
 });
 
