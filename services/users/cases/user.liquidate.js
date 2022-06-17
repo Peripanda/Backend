@@ -41,8 +41,6 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
     const userPortfolioWallet = await walletRepo.getUserkWalletByRisk(id, riskProfile);
     const sellConfig = getAssetSellConfig(percentageWithdraw, userPortfolioWallet.dataValues);
 
-    /* volumes to purchase. Should trigger a purchase if !0 */
-
     const qBTC = (sellConfig.pBTC) * 0.98;
     const qETH = (sellConfig.pETH) * 0.98;
     const qUSDC = (sellConfig.pUSDC) * 0.98;
