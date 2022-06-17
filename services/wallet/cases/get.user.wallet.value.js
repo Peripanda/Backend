@@ -9,8 +9,8 @@ const GetUserWalletValue = (walletRepo) => ({
     const usdcPrice = await getAssetPrice('usdc');
     const value = btcPrice.price * wallet.dataValues.btcQuantity
         + +ethPrice.price * wallet.dataValues.ethQuantity
-        + +usdcPrice.price * wallet.dataValues.ethQuantity;
-    return { value, currency: 'CLP' };
+        + +usdcPrice.price * wallet.dataValues.usdcQuantity;
+    return { value: Math.floor(value), currency: 'CLP' };
   },
 });
 
