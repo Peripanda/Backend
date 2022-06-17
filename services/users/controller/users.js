@@ -8,6 +8,7 @@ const UpdateBalanceUseCase = require('../cases/change.user.balance');
 const SignUpUsersUseCase = require('../cases/user.signup');
 const SignInUsersUseCase = require('../cases/user.signin');
 const InvestUseCase = require('../cases/user.invest');
+const WithdrawUseCase = require('../cases/user.liquidate');
 const NewUserWalletsCase = require('../../wallet/cases/new.user.wallets');
 const GetUserWallets = require('../../wallet/cases/get.user.wallets');
 const GetUserWallet = require('../../wallet/cases/get.user.wallet');
@@ -138,12 +139,12 @@ router.post('/:id/invest/:riskProfile', async (req, res) => {
 
 /* User Withdraw */
 router.post('/:id/withdraw/:riskProfile', async (req, res) => {
-  const investment = InvestUseCase(
+  const withdraw = WithdrawUseCase(
     UsersRepo(UserModel),
     WalletsRepo(WalletModel),
     PortfoliosRepo(PortfolioModel),
   );
-  const newWalletStatus = await investment.invest(req.params.id, req.params.riskProfile, req.body);
+  const newWalletStatus = await withdraw.liquidate(req.params.id, req.params.riskProfile, req.body);
   res.send(newWalletStatus);
 });
 

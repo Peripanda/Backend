@@ -1,14 +1,9 @@
-const assetPurchaseConfig = function assetConfigCalc(percentageWithdraw, portfolioConfig) {
+const assetPurchaseConfig = function assetConfigCalc(percentageWithdraw, walletConfig) {
   const sellConfig = {
-    pBTC: Math.round(percentageWithdraw * portfolioConfig.btcWeight),
-    pETH: Math.round(percentageWithdraw * portfolioConfig.ethWeight),
-    pUSDC: Math.round(percentageWithdraw * portfolioConfig.usdcWeight),
+    pBTC: percentageWithdraw * walletConfig.btcQuantity,
+    pETH: percentageWithdraw * walletConfig.ethQuantity,
+    pUSDC: percentageWithdraw * walletConfig.usdcQuantity,
   };
-  sellConfig.pBTC += percentageWithdraw - (
-    sellConfig.pBTC
-      + sellConfig.pETH
-      + sellConfig.pUSDC
-  );
   return sellConfig;
 };
 
