@@ -104,7 +104,7 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
     withdrawnAmount = qBTC * btcPrice.price + qETH * ethPrice.price + qUSDC * usdcPrice.price;
 
     const updatedUser = await user.set({
-      balance: Math.floor(user.balance + withdrawnAmount * percentageWithdraw),
+      balance: Math.floor(user.balance + withdrawnAmount),
       netInvestment: Math.floor(user.netInvestment - user.netInvestment * percentageWithdraw),
     });
     updatedUser.save();
