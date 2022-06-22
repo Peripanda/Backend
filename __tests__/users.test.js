@@ -45,7 +45,7 @@ describe('New user creation and login', () => {
 // // User not in DB
 describe('Get user by ID', () => {
   it('Health check', async () => {
-    const res = await request(app).get('/users/100');
+    const res = await request(app).get('/users/10000');
     expect(res.statusCode).toEqual(404);
   });
 });
