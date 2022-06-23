@@ -43,7 +43,6 @@ router.get('/:id', async (req, res) => {
   res.send(user);
 });
 
-
 /* PATCH user */
 router.patch('/:id', async (req, res) => {
   const editUserUseCase = EditUserUseCase(UsersRepo(UserModel));
