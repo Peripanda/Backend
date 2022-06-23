@@ -8,24 +8,27 @@ on:
 jobs:
   tests:
       runs-on: ubuntu-latest
+
+      services:
+        peripanda_db:
+          image: 'postgres:12'
+
+          env:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - '${DB_PORT}:${DB_PORT}'
     
       strategy:
         matrix:
           node-version: [12.22.0]
-
-      # Service containers to run with `container-job`
-      services:
-        peripanda_db:
-          container_name: peripanda_db
-          image: 'postgres:12'
-          ports:
-            - '${DB_PORT}:${DB_PORT}'
-          environment:
-            - POSTGRES_USER=${DB_USER}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-            - POSTGRES_DB=${DB_NAME}
-          volumes:
-            - pgdata2:/var/lib/postgresql/data
 
       steps:
         - name: Checkout Code Repository
