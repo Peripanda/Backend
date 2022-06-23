@@ -43,8 +43,8 @@ jobs:
         - name: Install dependencies
           run: npm install
           
-        # - name: Env
-        #   run: cp .env.example .env
+        - name: Env
+          run: cp .env.example .env
 
         - name: Run tests
           run : npm run test
