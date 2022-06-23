@@ -41,9 +41,9 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
     const userPortfolioWallet = await walletRepo.getUserkWalletByRisk(id, riskProfile);
     const sellConfig = getAssetSellConfig(percentageWithdraw, userPortfolioWallet.dataValues);
 
-    const qBTC = (sellConfig.pBTC) * 0.98;
-    const qETH = (sellConfig.pETH) * 0.98;
-    const qUSDC = (sellConfig.pUSDC) * 0.98;
+    const qBTC = (sellConfig.pBTC) * 1.02;
+    const qETH = (sellConfig.pETH) * 1.02;
+    const qUSDC = (sellConfig.pUSDC) * 1.02;
 
     const btcPrice = await getAssetPrice('btc');
     const ethPrice = await getAssetPrice('eth');
