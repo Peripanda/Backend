@@ -34,15 +34,6 @@ const User = db.define(
       type: Sequelize.DATE,
       allowNull: true,
       field: 'birth_date',
-<<<<<<< HEAD
-    },
-    netInvestment: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      field: 'net_investment',
-      default: 0,
-=======
->>>>>>> de8c6b2 (Dev (#5))
     },
     netInvestment: {
       type: Sequelize.INTEGER,

@@ -24,9 +24,6 @@ const UserModel = require('../../../models/users');
 const WalletModel = require('../../../models/wallets');
 const PortfolioModel = require('../../../models/portfolios');
 
-const WalletModel = require('../../../models/wallets');
-const PortfolioModel = require('../../../models/portfolios');
-
 /* GET users listing. */
 router.get('/', async (req, res) => {
   const listUserUseCase = ListUsersUseCase(UsersRepo(UserModel));

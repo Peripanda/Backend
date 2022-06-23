@@ -17,8 +17,22 @@ describe('Signup', () => {
 // // Check existing user in DB
 describe('Get user by ID', () => {
   it('Health check', async () => {
-    const res = await request(app).get('/users/1');
-    expect(res.statusCode).toEqual(200);
+    const newEmail = `${Math.random().toString(36).slice(2, 7)}@email.com`;
+    const newPassword = `${Math.random().toString(36).slice(2, 14)}A123!!`;
+    const newUsername = `${Math.random().toString(36).slice(2, 7)}`;
+    await request(app).post('/users/signup').send({
+      email: newEmail,
+      password: newPassword,
+      username: newUsername,
+    });
+    const res = await request(app).post('/users/signin').send({
+      email: newEmail,
+      password: newPassword,
+      username: newUsername,
+    });
+    const { id } = res.body.user;
+    const resTest = await request(app).get(`/users/${id}`);
+    expect(resTest.statusCode).toEqual(200);
   });
 });
 
@@ -44,7 +58,7 @@ describe('New user creation and login', () => {
 
 // // User not in DB
 describe('Get user by ID', () => {
-  it('Health check', async () => {
+  it('User not in DB', async () => {
     const res = await request(app).get('/users/10000');
     expect(res.statusCode).toEqual(404);
   });
