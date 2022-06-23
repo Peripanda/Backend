@@ -56,6 +56,34 @@ describe('New user creation and login', () => {
   });
 });
 
+// Edit User
+describe('Edit user info', () => {
+  it('Happy path', async () => {
+    const newEmail = `${Math.random().toString(36).slice(2, 7)}@email.com`;
+    const newPassword = `${Math.random().toString(36).slice(2, 14)}A123!!`;
+    const newUsername = `${Math.random().toString(36).slice(2, 7)}`;
+    await request(app).post('/users/signup').send({
+      email: newEmail,
+      password: newPassword,
+      username: newUsername,
+    });
+    const res = await request(app).post('/users/signin').send({
+      email: newEmail,
+      password: newPassword,
+      username: newUsername,
+    });
+    const { id } = res.body.user;
+
+    const resTest = await request(app).patch(`/users/${id}`).send({
+      username: `${Math.random().toString(36).slice(2, 7)}`,
+      name: `${Math.random().toString(36).slice(2, 7)}`,
+      lastname: `${Math.random().toString(36).slice(2, 7)}`,
+    });
+
+    expect(resTest.statusCode).toEqual(200);
+  });
+});
+
 // // User not in DB
 describe('Get user by ID', () => {
   it('User not in DB', async () => {
