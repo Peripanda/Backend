@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../bin/server');
-const marketOrder = require('../helpers/asset.market.order');
+// const marketOrder = require('../helpers/asset.market.order');
 
 describe('Get Assets Price', () => {
   it('testing Buda integration with btc', async () => {
