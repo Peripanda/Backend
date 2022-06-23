@@ -29,6 +29,3 @@ jobs:
         - name: Run Linter Check
           run: npm run lint
 
-        # - name: Run Test Check
-        #   run: cp .env.example .env && npm run test
-
