@@ -46,8 +46,8 @@ jobs:
         - name: Env
           run: cp .env.example .env
 
-        - name: Apply migrations
-          run: cd scripts/ && ./apply-migration.sh && cd ../
+        # - name: Apply migrations
+        #   run: cd scripts/ && ./apply-migration.sh && cd ../
 
         - name: Run tests
           -run : npm run test
