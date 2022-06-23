@@ -44,7 +44,7 @@ jobs:
           run: npm install
 
         - name: Install dependencies
-          run: cd scripts/ && ./apply-migrations.sh
+          run: cd scripts/ && ./apply-migration.sh
           
         - name: Run Test Check
           run: cp .env.example .env && npm run test
