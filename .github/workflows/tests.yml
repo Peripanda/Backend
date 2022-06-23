@@ -43,8 +43,8 @@ jobs:
         - name: Install dependencies
           run: npm install
 
-        - name: Install dependencies
-          run: cd scripts/ && ./apply-migration.sh
+        - name: Apply migrations
+          run: cd scripts/ && ./apply-migration.sh && cd ../
           
         - name: Run Test Check
           run: cp .env.example .env && npm run test
