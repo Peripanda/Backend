@@ -8,6 +8,23 @@ on:
 jobs:
   tests:
       runs-on: ubuntu-latest
+
+      services:
+        peripanda_db:
+          image: 'postgres:12'
+
+          env:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: defaultdb
+
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 5432:5432
     
       strategy:
         matrix:
@@ -26,5 +43,8 @@ jobs:
         - name: Install dependencies
           run: npm install
           
-        - name: Run Test Check
-          run: cp .env.example .env && npm run test
+        - name: Env
+          run: cp .env.example .env
+
+        - name: Run tests
+          run : npm run test

@@ -20,9 +20,172 @@ CREATE TYPE public.risk_profile AS ENUM (
 );
 
 
+<<<<<<< HEAD
+--
+-- Name: i_potencia(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.i_potencia(i integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    result integer;
+BEGIN
+    result := to_char(2 ** i);
+END
+$$;
+
+
+--
+-- Name: insercion_radical(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.insercion_radical(numero integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    temp varchar;
+BEGIN
+    FOR i IN 1..numero LOOP
+        temp := to_char(i,'99999999');
+        INSERT INTO Personas VALUES (temp, temp, temp);
+    END LOOP;
+END
+$$;
+
+
+--
+-- Name: insertar_persona(character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.insertar_persona(rut character varying, nombre character varying, apellido character varying) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    INSERT INTO Personas VALUES (rut, nombre, apellido);
+END
+$$;
+
+
+--
+-- Name: n_tuplas(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.n_tuplas() RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    _ record;
+    counter integer;
+BEGIN
+    counter = 0;
+    for _ IN (SELECT * FROM Personas) LOOP counter = counter + 1 ;
+    END LOOP;
+    return counter;
+END
+$$;
+
+
+--
+-- Name: potencia(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.potencia(i integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    return POWER(2, i);
+END
+$$;
+
+
+--
+-- Name: transferencia(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.transferencia() RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    tupla RECORD;
+    concat varchar;
+BEGIN
+    FOR tupla IN SELECT * FROM Personas LOOP
+        concat = tupla.nombre || tupla.apellido;
+        INSERT INTO PersonasCompleto VALUES (tupla.run, concat);
+    END LOOP;
+END
+$$;
+
+
+=======
+>>>>>>> f4a87e2 (Dev (#15))
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+--
+-- Name: assets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.assets (
+    ticker character varying(50) NOT NULL,
+    name character varying(255)
+);
+
+
+--
+-- Name: personas; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personas (
+    run character varying NOT NULL,
+    nombre character varying,
+    apellido character varying
+);
+
+
+--
+-- Name: personascompleto; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personascompleto (
+    run character varying NOT NULL,
+    nombrecompleto character varying
+);
+
+
+--
+-- Name: portfolios; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portfolios (
+    id integer NOT NULL,
+    risk public.risk_profile,
+    name character varying(255),
+    btc_weight double precision,
+    eth_weight double precision,
+    usdc_weight double precision
+);
+
+
+--
+-- Name: portfolios_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.portfolios_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: portfolios_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.portfolios_id_seq OWNED BY public.portfolios.id;
+
 
 --
 -- Name: assets; Type: TABLE; Schema: public; Owner: -
@@ -177,6 +340,25 @@ ALTER TABLE ONLY public.assets
 
 
 --
+<<<<<<< HEAD
+-- Name: personas personas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personas
+    ADD CONSTRAINT personas_pkey PRIMARY KEY (run);
+
+
+--
+-- Name: personascompleto personascompleto_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personascompleto
+    ADD CONSTRAINT personascompleto_pkey PRIMARY KEY (run);
+
+
+--
+=======
+>>>>>>> f4a87e2 (Dev (#15))
 -- Name: portfolios portfolios_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
