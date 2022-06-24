@@ -41,9 +41,9 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
     const userPortfolioWallet = await walletRepo.getUserkWalletByRisk(id, riskProfile);
     const sellConfig = getAssetSellConfig(percentageWithdraw, userPortfolioWallet.dataValues);
 
-    const qBTC = (sellConfig.pBTC) * 1.02;
-    const qETH = (sellConfig.pETH) * 1.02;
-    const qUSDC = (sellConfig.pUSDC) * 1.02;
+    const qBTC = (sellConfig.pBTC);
+    const qETH = (sellConfig.pETH);
+    const qUSDC = (sellConfig.pUSDC);
 
     const btcPrice = await getAssetPrice('btc');
     const ethPrice = await getAssetPrice('eth');
@@ -72,9 +72,9 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
         assetSells.USDC = parseFloat(sellUSDC.order.amount[0]);
       }
 
-      withdrawnAmount = assetSells.BTC * btcPrice.price
+      withdrawnAmount = (assetSells.BTC * btcPrice.price
       + assetSells.ETH * ethPrice.price
-      + assetSells.USDC * usdcPrice.price;
+      + assetSells.USDC * usdcPrice.price) * 0.98;
 
       const UpdatedWallet = await userPortfolioWallet.set({
         btcQuantity: userPortfolioWallet.dataValues.btcQuantity - assetSells.BTC,
@@ -84,7 +84,7 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
 
       const updatedUser = await user.set({
         balance: Math.floor(user.balance + withdrawnAmount),
-        netInvestment: Math.floor(user.netInvestment - user.netInvestment * percentageWithdraw),
+        netInvestment: Math.floor(user.netInvestment - withdrawnAmount),
       });
       updatedUser.save();
       UpdatedWallet.save();
@@ -101,11 +101,11 @@ const LiquidateUseCase = (userRepo, walletRepo) => ({
       usdcQuantity: userPortfolioWallet.dataValues.usdcQuantity - qUSDC,
     });
 
-    withdrawnAmount = qBTC * btcPrice.price + qETH * ethPrice.price + qUSDC * usdcPrice.price;
+    withdrawnAmount = (qBTC * btcPrice.price + qETH * ethPrice.price + qUSDC * usdcPrice.price) * 0.98;
 
     const updatedUser = await user.set({
       balance: Math.floor(user.balance + withdrawnAmount),
-      netInvestment: Math.floor(user.netInvestment - user.netInvestment * percentageWithdraw),
+      netInvestment: Math.floor(user.netInvestment - withdrawnAmount),
     });
     updatedUser.save();
     UpdatedWallet.save();
